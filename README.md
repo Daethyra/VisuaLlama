@@ -57,3 +57,7 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 3. **Front-End Development** : Build the TypeScript interface with planned functionalities.
 4. **Account Management** : Implement Google OAuth.
 5. **Testing** : Conduct thorough testing of each component.
+
+### How to learn more
+
+Please see the [progressive project documentation](documents/)
