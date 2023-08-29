@@ -28,12 +28,12 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 1. **Utility.py**
    * **Current** : Contains pipelines for text generation and object detection, but not fine-grained.
    * **To-Do** : Integrate RCNN/Mask RCNN.
-2. **ImageDescriber.py**
+2. **ImageDescriber.py** -> `image_processing.py`
    * **Current** : Capable of basic image resizing and object annotation.
    * **To-Do** : Integrate RCNN/Mask RCNN for detailed object detection. Add logic for categorizing similar object types.
-3. **Llama2Chat.py**
+3. **Llama2Chat.py** -> `conversation.py`
    * **Current** : Basic text generation. No adaptive responses or state management.
-   * **To-Do** : Implement context-aware conversational logic and state management.
+   * **To-Do** : Implement context-aware conversational logic and state management. Enable data ingestion during runtime. Enable data reception from Mask-RCNN.
 
 #### Front-End Functionalities (Planned)
 
