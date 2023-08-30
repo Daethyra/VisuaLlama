@@ -1,46 +1,27 @@
+"""This file contains the ImageDescriber class, which is used to describe images using object detection."""
 from utility import Utility
-from fastapi import File, UploadFile
-from PIL import Image, ImageDraw
-import logging
+from context_manager import ContextManager
 
 class ImageDescriber:
-    """A class for describing images using object detection."""
-    
-    def __init__(self, utility: Utility):
-        self.logger = utility.configure_logger(__name__)
-        self.pipeline = utility.object_detection_pipeline
-        self.logger.info("ImageDescriber initialized.")
-
-    def preprocess_image(self, image: Image.Image) -> Image.Image:
-        """Preprocesses the given image."""
-        self.logger.info("Preprocessing image...")
-        image = image.resize((800, 800))
-        self.logger.info("Image preprocessed successfully.")
-        return image
-
-    def annotate_image(self, image: Image.Image, detections: list) -> Image.Image:
-        """Annotates the given image with object detection results."""
-        self.logger.info("Annotating image...")
-        draw = ImageDraw.Draw(image)
-        for detection in detections:
-            box = detection['box']
-            label = detection['label']
-            draw.rectangle(box, outline="red", width=3)
-            draw.text((box[0], box[1]), label, fill="red")
-        self.logger.info("Image annotated successfully.")
-        return image
-
-    def describe_image(self, image: Image.Image, label_to_count: str) -> str:
-        """Describes the given image using object detection and count based on label_to_count."""
-        try:
-            self.logger.info("Describing image...")
-            image = self.preprocess_image(image)
-            detected_objects = self.pipeline(image)
-            count = Utility.count_objects(detected_objects, label_to_count)
-            annotated_image = self.annotate_image(image, detected_objects)
-            description = f"Detected {count} {label_to_count}(s). Please see the annotated image."
-            self.logger.info("Image described successfully.")
-            return description, annotated_image
-        except Exception as e:
-            self.logger.error(f"An error occurred while describing the image: {e}")
-            return "An error occurred while processing the image.", None
+    # Initialize the image describer
+    def __init__(self):
+        self.utility = Utility("llama-2-13b-chat", "path/to/detectron/config", "path/to/detectron/weights")
+        self.context_manager = ContextManager()
+        
+    # Describe the image
+    def describe_image(self, image_path):
+        # Object detection using Detectron2
+        detections = self.utility.detectron2_predictor(image_path)
+        
+        # Generate a description based on the detected objects
+        detected_objects = detections["instances"].pred_classes
+        description = self.utility.llama2_model.generate_text(detected_objects)
+        
+        # Extract dynamic classes if any
+        dynamic_classes = self.utility.extract_keywords(description)
+        
+        # Update the context manager
+        self.context_manager.update_history({"image_path": image_path}, {"description": description})
+        self.context_manager.update_dynamic_classes(dynamic_classes)
+        
+        return description
