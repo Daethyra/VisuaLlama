@@ -1,19 +1,22 @@
-""" This file contains the ContextManager class, which is used to store the conversation history and dynamically generated classes.
-"""
 class ContextManager:
-    # Initialize the context manager
     def __init__(self):
-        self.conversation_history = []
-        self.dynamic_classes = {}
-        
-    # Enable progressive contextual awareness
-    def update_history(self, user_input, system_output):
-        self.conversation_history.append({"user": user_input, "system": system_output})
-    
-    # Enable dynamic class generation    
+        self.history = []
+        self.dynamic_classes = []
+
+    def update_history(self, user_input, generated_text):
+        self.history.append({"user": user_input, "bot": generated_text})
+
+    def get_history(self):
+        return self.history
+
     def update_dynamic_classes(self, new_classes):
-        self.dynamic_classes.update(new_classes)
-    
-    # Get the context for the next system response    
+        self.dynamic_classes.extend(new_classes)
+
+    def get_dynamic_classes(self):
+        return self.dynamic_classes
+
     def get_context(self):
-        return {"history": self.conversation_history, "classes": self.dynamic_classes}
+        return {
+            "history": self.get_history(),
+            "dynamic_classes": self.get_dynamic_classes()
+        }

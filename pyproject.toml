@@ -1,0 +1,29 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "VisuaLlama"
+version = "0.1"
+description = "TEMPLATE"
+authors = [
+    {name = "Daethyra, Daemon Carino", email = "dev-daethyra@protonmail.com"}
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+
+[project.scripts]
+visuallama = "visuallama.__main__:main"
+
+[tool.poetry]
+homepage = "https://github.com/daethyra/VisuaLlama"
+repository = "https://github.com/daethyra/VisuaLlama"
+
+[tool.poetry.dependencies]
+
+
+
+[tool.poetry.dev-dependencies]
