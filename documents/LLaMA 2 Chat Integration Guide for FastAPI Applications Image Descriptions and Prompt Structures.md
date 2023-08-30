@@ -1,80 +1,37 @@
+
 # LLaMA 2 Chat Integration Guide for FastAPI Applications: Image Descriptions and Prompt Structures
 
 ## Introduction
 
-This guide details the integration of the LLaMA 2 Chat model into a FastAPI application to generate descriptions for images. The model is trained to understand specific prompt structures for single-turn and multi-turn conversations.
+This guide explains the integration of the LLaMA 2 Chat model into a FastAPI application to facilitate multi-turn conversations and generate descriptions for images.
 
 ## How to Prompt LLaMA 2 Chat
 
-Interacting with LLaMA 2 Chat effectively requires providing the right prompts and questions. Below are the prompt templates for both single-turn and multi-turn conversations:
+- Utilize the Context Manager Module to maintain the context for multi-turn conversations.
+- Use dynamic prompts generated based on the conversation history and the user's request.
 
-### Single-turn
+## Prompt Structures
 
-```plaintext
+- For single-turn: "Tell me about {object_class}."
+- For multi-turn: "I am interested in {object_class}. Tell me more."
 
-<s>[INST] <<SYS>>
+## Object Description Prompts
 
-{{ system_prompt }}
+- "Describe the {object_class} in the image."
+- "How many {object_class} are in the image?"
 
-<</SYS>>
+## Multi-Turn Conversations
 
+- Make use of the Context Manager to maintain a conversation history.
+- Utilize the context to generate follow-up prompts and questions.
+  - Current idea is to provide a maximum memory state of 3
 
-{{ user_message }} [/INST]
+## Error Handling
 
-```
+- Implement robust error handling in the Utility Module.
+- Utilize LLaMA 2's capabilities to generate user-friendly error messages.
 
-### Multi-turn
+## Future Enhancements
 
-```plaintext
-
-<s>[INST] <<SYS>>
-
-{{ system_prompt }}
-
-<</SYS>>
-
-
-{{ user_msg_1 }} [/INST] {{ model_answer_1 }} </s><s>[INST] {{ user_msg_2 }} [/INST] {{ model_answer_2 }} </s><s>[INST] {{ user_msg_3 }} [/INST]
-
-```
-
-## Usage
-
-### Import Libraries
-
-Import the required libraries, including transformers and CLIP.
-
-### Initialize Models
-
-Initialize the LLaMA 2 Chat model and the CLIP model.
-
-### Preprocess Image
-
-Preprocess the image using the CLIP transform.
-
-### Extract Features
-
-Extract features from the image using the CLIP model.
-
-### Construct Dialog
-
-Construct the dialog using the appropriate prompt structure (single-turn or multi-turn) and include the extracted image features.
-
-### Generate Description
-
-Generate the description using the LLaMA 2 Chat model.
-
-## Dependencies
-
-- transformers
-- CLIP
-- FastAPI
-- PIL
-
-## Conclusion
-
-Follow the prompt structure as described above for proper interaction with the LLaMA 2 Chat model. Ensure that the system prompt and user messages are formatted correctly.
-
-For more details on the LLaMA 2 model, refer to the [LLaMA 2 paper](#) and the [LLaMA 2 Prompt Template](#).
-
-Feel free to reach out with any questions or suggestions for improvement. Happy coding!
+- Implement sentiment analysis.
+- Incorporate advanced error handling and logging mechanisms.

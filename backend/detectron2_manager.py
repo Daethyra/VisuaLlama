@@ -1,11 +1,17 @@
-from utility import Utility
+from detectron2.engine import DefaultPredictor
+from detectron2.config import get_cfg
 
 class Detectron2Manager:
-    def __init__(self):
-        self.utility = Utility("llama-2-13b-chat", "path/to/detectron/config", "path/to/detectron/weights")
-        
-    def detect_objects(self, image_path):
-        # Object detection using Detectron2
-        detections = self.utility.detectron2_predictor(image_path)
-        detected_objects = detections["instances"].pred_classes
-        return detected_objects
+    def __init__(self, config_path, weights_path):
+        cfg = get_cfg()
+        cfg.merge_from_file(config_path)
+        cfg.MODEL.WEIGHTS = weights_path
+        self.predictor = DefaultPredictor(cfg)
+
+    def predict(self, image):
+        outputs = self.predictor(image)
+        return outputs
+
+    def extract_features(self, outputs):
+        # Placeholder for feature extraction logic
+        return {}
