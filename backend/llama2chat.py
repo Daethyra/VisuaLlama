@@ -1,27 +1,24 @@
-from utility import Utility
-from transformers import pipeline
+from collections import Counter
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from detectron2.engine import DefaultPredictor
+from detectron2.config import get_cfg
+import re
 
-class Llama2Chat:
+class Utility:
     def __init__(self):
-        self.utility = Utility()
-        self.text_gen = pipeline("text-generation", model=self.utility.llama2_model, tokenizer=self.utility.llama2_tokenizer)
+        # Load the LLaMA2 model and tokenizer
+        self.llama2_model = AutoModelForCausalLM.from_pretrained("llama-2-13b-chat")
+        self.llama2_tokenizer = AutoTokenizer.from_pretrained("llama-2-13b-chat")
         
-    def generate_text(self, prompt):
-        # Use LLaMA2 model and tokenizer for text generation
-        generated_text = self.text_gen(prompt)[0]['generated_text']
+        # Load the Detectron2 model
+        cfg = get_cfg()
+        cfg.merge_from_file("path/to/config/file.yaml")
+        cfg.MODEL.WEIGHTS = "path/to/weights/file.pth"
+        self.detectron2_predictor = DefaultPredictor(cfg)
         
-        # Extract dynamic classes based on the generated text
-        dynamic_classes = self.extract_dynamic_classes(generated_text)
-        
-        return generated_text, dynamic_classes
-
-    def extract_dynamic_classes(self, generated_text):
-        # Placeholder logic to extract dynamic classes based on user input and model output
-        # This can be a complex NLP task and might require additional model training or rule-based logic
-        
-        # Example: Extracting object types and their characteristics from the generated text
-        dynamic_classes = {}  # Dictionary to hold dynamic classes
-        
-        # TODO: Implement logic to populate dynamic_classes based on generated_text
-        
-        return dynamic_classes
+    def extract_keywords(self, text, top_n=5):
+        """Extract top_n keywords from a given text based on frequency."""
+        words = re.findall(r'\\w+', text.lower())
+        counter = Counter(words)
+        common_words = counter.most_common(top_n)
+        return [word[0] for word in common_words]
