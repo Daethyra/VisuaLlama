@@ -1,0 +1,21 @@
+# Dockerfile to build an image for VisuaLlama
+version: "2.3"
+services:
+  visual-llama:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Uncomment the following lines for GPU support
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities:
+    #           - gpu
+    shm_size: "8gb"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    environment:
+      - DISPLAY=$DISPLAY
+      # Uncomment the following line for GPU support
+      # - NVIDIA_VISIBLE_DEVICES=all
