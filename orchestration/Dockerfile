@@ -1,5 +1,5 @@
 # Use an image with CUDA support as base (can be changed for CPU support)
-FROM nvidia/cuda:11.1.1-cudnn8-devel-ubuntu18.04
+FROM nvidia/cuda:12.0.1-cudnn8-devel-ubuntu18.04
 
 # Uncomment the following line for CPU support and comment out the above line
 # FROM ubuntu:18.04
