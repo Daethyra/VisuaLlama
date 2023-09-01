@@ -23,7 +23,9 @@ homepage = "https://github.com/daethyra/VisuaLlama"
 repository = "https://github.com/daethyra/VisuaLlama"
 
 [tool.poetry.dependencies]
-
-
+transformers 
+tensorflow 
+requests 
+Pillow
 
 [tool.poetry.dev-dependencies]
