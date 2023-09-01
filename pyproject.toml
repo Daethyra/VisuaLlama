@@ -8,7 +8,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "VisuaLlama"
 version = "0.1"
-description = "TEMPLATE"
+description = "A Llama-2-powered Conversational, Object-Counting AI Assistant"
 authors = [
     {name = "Daethyra, Daemon Carino", email = "dev-daethyra@protonmail.com"}
 ]
@@ -23,7 +23,9 @@ homepage = "https://github.com/daethyra/VisuaLlama"
 repository = "https://github.com/daethyra/VisuaLlama"
 
 [tool.poetry.dependencies]
-
-
+transformers 
+tensorflow 
+requests 
+Pillow
 
 [tool.poetry.dev-dependencies]

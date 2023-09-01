@@ -1,37 +1,64 @@
-
 # LLaMA 2 Chat Integration Guide for FastAPI Applications: Image Descriptions and Prompt Structures
 
-## Introduction
+## Date: 2023-09-01
 
-This guide explains the integration of the LLaMA 2 Chat model into a FastAPI application to facilitate multi-turn conversations and generate descriptions for images.
+## Overview
 
-## How to Prompt LLaMA 2 Chat
+This guide focuses on integrating the revamped VILTChatbotModule into FastAPI applications for Visual Question Answering (VQA). The module is designed to handle image descriptions and natural language prompts, making it ideal for applications that require versatile image-text interactions.
 
-- Utilize the Context Manager Module to maintain the context for multi-turn conversations.
-- Use dynamic prompts generated based on the conversation history and the user's request.
+## Table of Contents
 
-## Prompt Structures
+1. [System Requirements](#system-requirements)
+2. [Installation](#installation)
+3. [Module Structure](#module-structure)
+4. [API Endpoints](#api-endpoints)
+5. [Error Handling](#error-handling)
+6. [Scaling and Performance](#scaling-and-performance)
+7. [Examples](#examples)
+8. [Troubleshooting](#troubleshooting)
 
-- For single-turn: "Tell me about {object_class}."
-- For multi-turn: "I am interested in {object_class}. Tell me more."
+### System Requirements
 
-## Object Description Prompts
+- Python 3.10+
+- FastAPI
+- Pillow
+- TensorFlow
+- Transformers library
 
-- "Describe the {object_class} in the image."
-- "How many {object_class} are in the image?"
+### Installation
 
-## Multi-Turn Conversations
+```bash
+pip install -r requirements.txt
+```
 
-- Make use of the Context Manager to maintain a conversation history.
-- Utilize the context to generate follow-up prompts and questions.
-  - Current idea is to provide a maximum memory state of 3
+### Module Structure
 
-## Error Handling
+The `VILTChatbotModule` class is the core component, providing methods for image loading and answer prediction.
 
-- Implement robust error handling in the Utility Module.
-- Utilize LLaMA 2's capabilities to generate user-friendly error messages.
+- `__init__`: Initialize the pre-trained models.
+- `load_image`: Load images from various formats.
+- `predict_answer`: Generate answers based on image and text input.
 
-## Future Enhancements
+### API Endpoints
 
-- Implement sentiment analysis.
-- Incorporate advanced error handling and logging mechanisms.
+Create FastAPI endpoints to interact with the module:
+
+- `/predict`: POST endpoint to receive image and text, and return the predicted answer.
+
+### Error Handling
+
+The module includes robust error handling, using Python's logging module to log errors and exceptions.
+
+### Scaling and Performance
+
+The module is designed to be stateless, making it easy to scale horizontally. For performance considerations, the module leverages TensorFlow for accelerated computations.
+
+### Examples
+
+Examples of API requests and responses will be provided to facilitate integration.
+
+### Troubleshooting
+
+Common issues and their resolutions will be listed.
+
+---
