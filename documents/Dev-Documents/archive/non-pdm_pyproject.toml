@@ -1,0 +1,17 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "VisuaLlama"
+version = "0.1"
+description = "A Llama-2-powered Conversational, Object-Counting AI Assistant"
+authors = [
+    {name = "Daethyra, Daemon Carino", email = "dev-daethyra@protonmail.com"}
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+dynamic = ["requires-python", "classifiers", "dependencies"]

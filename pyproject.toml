@@ -1,31 +1,39 @@
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "VisuaLlama"
-version = "0.1"
-description = "A Llama-2-powered Conversational, Object-Counting AI Assistant"
+version = "v0.1"
+description = "A conversational, object-counting assistant."
 authors = [
-    {name = "Daethyra, Daemon Carino", email = "dev-daethyra@protonmail.com"}
+    {name = "Daethyra (Daemon Carino)", email = "dev-daethyra@protonmail.com"},
 ]
-license = { file = "LICENSE" }
+dependencies = [
+    "Pillow",
+    "fastapi",
+    "requests",
+    "torch",
+    "transformers",
+]
+requires-python = ">=3.10"
 readme = "README.md"
+license = {text = "GNU AGPL"}
+classifiers = [
+    "Development Status :: v0.1 - Alpha",
+    "Intended Audience :: Non-technical Users, Developers",
+    "License :: OSI Approved :: Affero GNU GPL v3.0",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
 
-[project.scripts]
-visuallama = "visuallama.__main__:main"
 
-[tool.poetry]
-homepage = "https://github.com/daethyra/VisuaLlama"
-repository = "https://github.com/daethyra/VisuaLlama"
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
-[tool.poetry.dependencies]
-transformers 
-tensorflow 
-requests 
-Pillow
 
-[tool.poetry.dev-dependencies]
+[project.optional-dependencies]
+tests = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-env",
+    "pytest-dotenv",
+    "pytest-mock",
+]

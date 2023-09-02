@@ -2,9 +2,11 @@
 
 `A conversational, object-counting AI assistant`
 
-`Project Overview: 8/28/23`
+`Project Overview: 9/2/23`
 
 ---
+
+[![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm.fming.dev)
 
 #### Current Status
 
@@ -25,15 +27,10 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 
 #### Backend Modules
 
-1. **Utility.py**
-   * **Current** : Contains pipelines for text generation and object detection, but not fine-grained.
-   * **To-Do** : Integrate RCNN/Mask RCNN.
-2. **ImageDescriber.py** -> `image_processing.py`
-   * **Current** : Capable of basic image resizing and object annotation.
-   * **To-Do** : Integrate RCNN/Mask RCNN for detailed object detection. Add logic for categorizing similar object types.
-3. **Llama2Chat.py** -> `conversation.py`
-   * **Current** : Basic text generation. No adaptive responses or state management.
-   * **To-Do** : Implement context-aware conversational logic and state management. Enable data ingestion during runtime. Enable data reception from Mask-RCNN.
+1. **vilt_power.py**
+
+   * **Current** : A basic pipeline for object detection and text generation.
+   * **To-Do** : TBD
 
 #### Front-End Functionalities (Planned)
 
@@ -46,18 +43,16 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 ### Technical Requirements
 
 1. **Back-End** : Python, FastAPI
-2. **Object Detection Model** : Intending to use RCNN/Mask RCNN
+2. **Object Detection Model** : ViLT 
 3. **Text Generation Model** : LLaMA 2
 4. **Front-End** : TypeScript (to be developed)
 
 ### Steps to Move Forward
 
-1. **Object Detection** : Research and implement RCNN/Mask RCNN.
+1. **Object Detection Testing** : Test ViLT for object detection.
 2. **Conversational Logic** : Enhance `Llama2Chat.py` for state management and improved dialog.
 3. **Front-End Development** : Build the TypeScript interface with planned functionalities.
-4. **Account Management** : Implement Google OAuth.
-5. **Testing** : Conduct thorough testing of each component.
 
 ### How to learn more
 
-Please see the [progressive project documentation](documents/)
+Please see the [progressive project documentation](documents/).
