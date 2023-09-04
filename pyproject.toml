@@ -1,6 +1,6 @@
 [project]
 name = "VisuaLlama"
-version = "v0.1"
+version = "v0.3"
 description = "A conversational, object-counting assistant."
 authors = [
     {name = "Daethyra (Daemon Carino)", email = "dev-daethyra@protonmail.com"},
@@ -16,7 +16,7 @@ requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "GNU AGPL"}
 classifiers = [
-    "Development Status :: v0.1 - Alpha",
+    "Development Status :: v0.3 - Alpha",
     "Intended Audience :: Non-technical Users, Developers",
     "License :: OSI Approved :: Affero GNU GPL v3.0",
     "Programming Language :: Python :: 3.10",
