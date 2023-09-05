@@ -5,6 +5,7 @@ description = "A conversational, object-counting assistant."
 authors = [
     {name = "Daethyra (Daemon Carino)", email = "dev-daethyra@protonmail.com"},
 ]
+requires-python = ">=3.10"
 dependencies = [
     "Pillow",
     "fastapi",
@@ -12,7 +13,6 @@ dependencies = [
     "torch",
     "transformers",
 ]
-requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "GNU AGPL"}
 classifiers = [
@@ -22,18 +22,20 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-
-
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
-
-[project.optional-dependencies]
-tests = [
+[tool.pdm.dev-dependencies]
+lint = [
+    "flake8",
+    "black"
+]
+test = [
     "pytest",
+    "pytest-cov",
     "pytest-asyncio",
     "pytest-env",
     "pytest-dotenv",
     "pytest-mock",
 ]
+doc = ["mkdocs"]
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

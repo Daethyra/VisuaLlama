@@ -9,7 +9,7 @@ LICENSE:
 """
 
 import unittest
-from vilt_power import VILTChatbotModule, get_prediction
+from src.models.vilt_power import VILTChatbotModule, get_prediction
 
 class TestVILTChatbotModule(unittest.TestCase):
 
@@ -21,11 +21,11 @@ class TestVILTChatbotModule(unittest.TestCase):
         self.assertIsNotNone(self.vilt_module.model, "Model should not be None.")
 
     def test_load_image(self):
-        self.assertIsNotNone(self.vilt_module.load_image('sample_image.jpg'), "Image loading failed.")
+        self.assertIsNotNone(self.vilt_module.load_image('IMG_1607.jpg'), "Image loading failed.")
         self.assertIsNone(self.vilt_module.load_image('invalid_path.jpg'), "Invalid image path should return None.")
         
     def test_predict_answer(self):
-        result = get_prediction('local_image.jpg', 'What color is the sky?')
+        result = get_prediction('IMG_1607.jpg', 'What color are the boxes?')
         self.assertNotEqual(result.get('error'), 'An error occurred during prediction.', 'Prediction should not fail.')
         
     def test_invalid_prediction(self):

@@ -3,6 +3,7 @@
 # "You must commit the pyproject.toml file. You should commit the pdm.lock and pdm.toml file. ***Do not commit*** the .pdm-python file."
 
 *.log
+tests/*.JPEG
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
