@@ -25,7 +25,7 @@ class TestVILTChatbotModule(unittest.TestCase):
         self.assertIsNone(self.vilt_module.load_image('invalid_path.jpg'), "Invalid image path should return None.")
         
     def test_predict_answer(self):
-        result = get_prediction('sample_image.jpg', 'What color is the sky?')
+        result = get_prediction('local_image.jpg', 'What color is the sky?')
         self.assertNotEqual(result.get('error'), 'An error occurred during prediction.', 'Prediction should not fail.')
         
     def test_invalid_prediction(self):
