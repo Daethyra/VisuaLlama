@@ -2,7 +2,7 @@
 
 `A conversational, object-counting AI assistant`
 
-`Project Overview: 9/2/23`
+`Project Overview: 9/5/23`
 
 ---
 
@@ -14,14 +14,15 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 
 #### Goals
 
-1. **Fine-Grained Object Detection** : To be achieved by implementing RCNN/Mask RCNN. (Replace CLIP)
+1. **Fine-Grained Object Detection** : Use [ViLT](https://huggingface.co/dandelin/vilt-b32-finetuned-vqa) for object detection.
 2. **Conversational Depth** : Advanced conversational logic to maintain context and ask for additional details.
-3. **End-to-End User Flow** : Users should be able to upload an image and get a natural language explanation.
+3. **End-to-End User Flow** : Users should be able to upload an image, describe their issue in natural language, and get a natural language response.
 
 #### Future Development
 
-1. **Front-End** : TypeScript interface for user interaction.
-2. **Account Management** : Implementation of Google OAuth.
+1. **User Interface** : Gradio
+2. **Account Management** : Google OAuth
+3. **Deployment** : Docker, Ngrok
 
 ### Modules
 
@@ -30,7 +31,7 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 1. **vilt_power.py**
 
    * **Current** : A basic pipeline for object detection and text generation.
-   * **To-Do** : TBD
+   * **To-Do** : 
 
 #### Front-End Functionalities (Planned)
 
@@ -45,13 +46,13 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 1. **Back-End** : Python, FastAPI
 2. **Object Detection Model** : ViLT 
 3. **Text Generation Model** : LLaMA 2
-4. **Front-End** : TypeScript (to be developed)
 
 ### Steps to Move Forward
 
 1. **Object Detection Testing** : Test ViLT for object detection.
-2. **Conversational Logic** : Enhance `Llama2Chat.py` for state management and improved dialog.
-3. **Front-End Development** : Build the TypeScript interface with planned functionalities.
+2. **User Interface** : Create Gradio module
+3. **Gradio Test** : Test the Gradio interface with the `vilt_power.py` module. Ensure the UX aligns with the project goals.
+4. **Initialize Llama as a submodule** : Load the local model with a Python module in `models/`. Create a pipeline for text generation.
 
 ### How to learn more
 
