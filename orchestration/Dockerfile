@@ -8,7 +8,8 @@ FROM nvidia/cuda:12.0.1-cudnn8-devel-ubuntu18.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
-RUN apt update && apt full-upgrade -y && apt install install -y git wget sudo
+RUN apt update && apt full-upgrade -y && apt install -U -y git wget sudo python3-pip
+RUN pip install --user -U pdm && pdm install 
 
 # Create a symbolic link for Python
 RUN ln -sv /usr/bin/python3 /usr/bin/python

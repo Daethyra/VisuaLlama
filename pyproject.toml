@@ -31,6 +31,11 @@ classifiers = [
 ]
 
 
+[tool.pdm.scripts]
+run-main = "PYTHONPATH=src/ python src/main.py"
+test = "PYTHONPATH=src/ pytest tests/"
+
+
 [tool.pdm.dev-dependencies]
 lint = [
     "flake8",

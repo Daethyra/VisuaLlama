@@ -1,7 +1,6 @@
-# Dockerfile to build an image for VisuaLlama
 version: "2.3"
 services:
-  visual-llama:
+  visuallama:
     build:
       context: .
       dockerfile: Dockerfile
