@@ -34,3 +34,5 @@ pdm = "pdm.core:main"
 [build-system]
 requires = ["pdm-backend", "cython"]
 build-backend = "pdm.backend"
+[tool.pdm.scripts]
+dup = "docker-compose -f orchestration/compose.yml up"

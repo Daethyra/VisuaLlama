@@ -1,20 +1,23 @@
 # The default base image is 'ubuntu:18.04' which defaults to CPU processing and was chosen for backwards compatibility.
 #
 # If you want to use GPU then uncomment the appropriate lines, both here and in 'orchestration/compose.yml'.
-# Only change this file if you know what you are doing.
+# !!! Only change this file if you know what you are doing. !!!
 #
 # | ---------------------------------- |
 # ---- {Base Build Stage} ----
 #FROM ubuntu:latest AS base
 #FROM ubuntu:18.04 AS base
-
+#
 # Use an image with CUDA support as base (can be changed for CPU support)
-# Uncomment the following line for GPU support and comment out the above line
+# Uncomment one of the following lines for GPU support and comment out the above lines
 FROM tensorflow/tensorflow:latest-gpu AS base
 #FROM nvidia/cuda:12.0.1-cudnn8-devel-ubuntu18.04 AS base
-
+#
 # Set environment variables to non-interactive (this prevents some prompts)
 ENV DEBIAN_FRONTEND=noninteractive
+# Set the timezone to PST
+ENV TZ=America/Los_Angeles
+#
 # | ---------------------------------- |
 # ---- {Dependencies Stage} ----
 FROM base AS dependencies
@@ -26,11 +29,15 @@ COPY orchestration/start_services.sh /home/VisuaLlama/
 RUN chmod +x /home/VisuaLlama/start_services.sh
 # Install basic image dependencies
 RUN apt update && \
-    apt full-upgrade -y && \
-    apt install -y git wget curl sudo nano 
-RUN apt update && \
+    apt update -y && \
+    apt install -y git wget curl sudo nano software-properties-common && \
+    apt-add-repository ppa:deadsnakes/ppa -y && \
+    apt update -y && \
     apt install -y python3.8 python3-pip python3.8-venv && \
-    python3.8 -m pip install --upgrade pip
+    python3.8 -m pip install --upgrade pip && \
+    apt full-upgrade -y
+# Install Python 3.8 and set it as the default Python version
+RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 # Install Ngrok from the official repository via apt
 RUN  curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null && \
     echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list && apt update && \
@@ -38,8 +45,9 @@ RUN  curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trust
 # Install PDM (Python Development Master) from PyPI  (https://pdm.fming.dev/)
 RUN python3.8 -m pip install pdm pdm-backend
 # Install Python dependencies from pyproject.toml using pdm install
-RUN pdm venv create && \
-    pdm install
+RUN pdm init && \
+    pdm venv create && \
+    pdm install --python=python3.8
 # | ---------------------------------- |
 # ---- {Final Stage} ----
 FROM dependencies AS final
