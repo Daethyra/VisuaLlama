@@ -29,10 +29,10 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
+
 [project.scripts]
 pdm = "pdm.core:main"
+
 [build-system]
-requires = ["pdm-backend", "cython"]
+requires = ["pdm-backend"]
 build-backend = "pdm.backend"
-[tool.pdm.scripts]
-dup = "docker-compose -f orchestration/compose.yml up"

@@ -21,15 +21,20 @@ ENV TZ=America/Los_Angeles
 # | ---------------------------------- |
 # ---- {Dependencies Stage} ----
 FROM base AS dependencies
-# Copy the necessary folders and files into the image
-COPY src/ /home/VisuaLlama/src/
-COPY pyproject.toml /home/VisuaLlama/
-COPY .env /home/VisuaLlama/
-COPY orchestration/start_services.sh /home/VisuaLlama/
-RUN chmod +x /home/VisuaLlama/start_services.sh
-# Install basic image dependencies
+# Set user and working directory first
+USER VisuaLlama
+WORKDIR /home/VisuaLlama
+
+# Now copy the files into the image
+COPY src/ ./src/
+COPY pyproject.toml .
+COPY .env .
+COPY orchestration/start_services.sh ./start_services.sh
+
+# Change permissions for the start_services.sh script
+RUN chmod +x ./start_services.sh
+# Install basic image dependencies (removed redundant apt update)
 RUN apt update && \
-    apt update -y && \
     apt install -y git wget curl sudo nano software-properties-common && \
     apt-add-repository ppa:deadsnakes/ppa -y && \
     apt update -y && \
@@ -44,10 +49,8 @@ RUN  curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trust
     apt install ngrok
 # Install PDM (Python Development Master) from PyPI  (https://pdm.fming.dev/)
 RUN python3.8 -m pip install pdm pdm-backend
-# Install Python dependencies from pyproject.toml using pdm install
-RUN pdm init && \
-    pdm venv create && \
-    pdm install --python=python3.8
+# Remove pdm init and directly go for pdm install
+RUN pdm install --python 3.8
 # | ---------------------------------- |
 # ---- {Final Stage} ----
 FROM dependencies AS final
