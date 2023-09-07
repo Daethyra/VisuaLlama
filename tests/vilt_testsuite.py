@@ -7,9 +7,10 @@ Author:
 LICENSE: 
     Affero GNU GPL v3.0
 """
-
+import sys
+sys.path.append('../src/LLMhandlers')
 import unittest
-from src.models.vilt_power import VILTChatbotModule, get_prediction
+from vilt_power import VILTChatbotModule, get_prediction
 
 class TestVILTChatbotModule(unittest.TestCase):
 

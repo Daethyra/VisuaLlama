@@ -16,6 +16,7 @@ dependencies = [
     "tensorflow>=2.13.0",
     "tensorflow-io-gcs-filesystem==0.23.1",
     "tensorboard",
+    "tensorrt>=8.6.1.post1",
 ]
 readme = "README.md"
 classifiers = [

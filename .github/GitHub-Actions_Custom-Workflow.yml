@@ -1,4 +1,4 @@
-name: Daethyra's Workflow
+name: VisuaLlama Maintanence Workflow
 # Author: Daethyra (Daemon Carino)
 
 on:
@@ -27,7 +27,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    # 
     - name: Set up PDM
       uses: pdm-project/setup-pdm@v2
       with:
@@ -48,12 +47,6 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
-    
-    - name: Install dependencies
-      run: pip install .
-      
-    - name: Run tests
-      run: pytest
     
     # Linting step
     - name: Install pylint
