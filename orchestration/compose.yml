@@ -4,22 +4,21 @@ services:
     build:
       context: ../
       dockerfile: orchestration/Dockerfile
-    #command: ["/bin/bash", "/home/VisuaLlama/start_services.sh"]
+      # command: ["/bin/bash", "/home/VisuaLlama/start_services.sh"]
     # Uncomment the following lines for GPU support
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - capabilities:
-    #           - gpu
+    deploy:
+        resources:
+          reservations:
+            devices:
+              - capabilities:
+                - gpu
     shm_size: "8gb"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
-    environment:
-      - DISPLAY=$DISPLAY
-      - NGROK_AUTH_TOKEN=$NGROK_AUTH_TOKEN
-      - NGROK_API_TOKEN=$NGROK_API_TOKEN
-      # Uncomment the following line for GPU support
-      # - NVIDIA_VISIBLE_DEVICES=all
     env_file:
       - ../.env
+    environment:
+      - NGROK_API_KEY=$NGROK_API_KEY
+      - NGROK_AUTH_TOKEN=$NGROK_AUTH_TOKEN
+      # Uncomment the following line for GPU support
+      - NVIDIA_VISIBLE_DEVICES=all
