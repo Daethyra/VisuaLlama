@@ -11,8 +11,11 @@ FROM nvidia/cuda:12.0.1-cudnn8-devel-ubuntu18.04 AS base
 # Uncomment the following line for CPU support and comment out the above line
 #FROM ubuntu:18.04 AS base
 
-# Set environment variables to non-interactive and timezone
-ENV DEBIAN_FRONTEND=noninteractive TZ=America/Los_Angeles
+# Set the timezone and environment variables
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=America/Los_Angeles \
+    # Export Dependency Directories to the PATH
+    PATH="/usr/bin:/home/VisuaLlama/.local/bin:${PATH}"
 
 # Install system dependencies
 RUN apt update && \
