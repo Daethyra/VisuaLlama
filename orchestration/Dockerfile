@@ -52,7 +52,8 @@ RUN sudo apt install -y python3-pip python3-venv && \
 # Copy the rest of the files into the image
 COPY src/ ./src/
 COPY orchestration/start_services.sh ./start_services.sh
-RUN sudo chmod +x ./start_services.sh
+RUN sudo chmod +x ./start_services.sh && \
+    sudo apt autoremove -y
 
 # Run the Bash script to start the Python HTTP server and Ngrok
 CMD ["/bin/bash", "/home/VisuaLlama/start_services.sh"]
