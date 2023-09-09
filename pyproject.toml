@@ -1,8 +1,3 @@
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
-
 [project]
 name = "VisuaLlama"
 version = "v0.3"
@@ -10,38 +5,34 @@ description = "A conversational, object-counting assistant."
 authors = [
     {name = "Daethyra (Daemon Carino)", email = "dev-daethyra@protonmail.com"},
 ]
-
-
-requires-python = ">=3.10"
+requires-python = ">=3.8,<3.11"
+license = {text = "GNU AGPL"}
 dependencies = [
     "Pillow",
     "fastapi",
     "requests",
-    "torch",
+    "gradio",
     "transformers",
+    "tensorflow>=2.13.0",
+    "tensorflow-io-gcs-filesystem==0.23.1",
+    "tensorboard",
+    "tensorrt>=8.6.1.post1",
 ]
 readme = "README.md"
-license = {text = "GNU AGPL"}
 classifiers = [
     "Development Status :: v0.3 - Alpha",
     "Intended Audience :: Non-technical Users, Developers",
     "License :: OSI Approved :: Affero GNU GPL v3.0",
+    "Topic :: VQA, Llama",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
 
+[project.scripts]
+pdm = "pdm.core:main"
 
-[tool.pdm.dev-dependencies]
-lint = [
-    "flake8",
-    "black"
-]
-test = [
-    "pytest",
-    "pytest-cov",
-    "pytest-asyncio",
-    "pytest-env",
-    "pytest-dotenv",
-    "pytest-mock",
-]
-doc = ["mkdocs"]
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

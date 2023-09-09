@@ -1,21 +1,24 @@
-# Dockerfile to build an image for VisuaLlama
 version: "2.3"
 services:
-  visual-llama:
+  visuallama:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: orchestration/Dockerfile
+      # command: ["/bin/bash", "/home/VisuaLlama/start_services.sh"]
     # Uncomment the following lines for GPU support
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - capabilities:
-    #           - gpu
+    deploy:
+        resources:
+          reservations:
+            devices:
+              - capabilities:
+                - gpu
     shm_size: "8gb"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    env_file:
+      - ../.env
     environment:
-      - DISPLAY=$DISPLAY
+      - NGROK_API_KEY=$NGROK_API_KEY
+      - NGROK_AUTH_TOKEN=$NGROK_AUTH_TOKEN
       # Uncomment the following line for GPU support
-      # - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_VISIBLE_DEVICES=all

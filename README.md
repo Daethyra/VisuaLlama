@@ -2,11 +2,10 @@
 
 `A conversational, object-counting AI assistant`
 
-`Project Overview: 9/5/23`
+`Project Overview: 9/7/23`
 
 ---
-
-[![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm.fming.dev)
+[![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)](https://www.python.org/) [![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)](https://pdm.fming.dev) [![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://pdm.fming.dev) [![PDM](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm.fming.dev)
 
 #### Current Status
 
@@ -15,14 +14,15 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 #### Goals
 
 1. **Fine-Grained Object Detection** : Use [ViLT](https://huggingface.co/dandelin/vilt-b32-finetuned-vqa) for object detection.
-2. **Conversational Depth** : Advanced conversational logic to maintain context and ask for additional details.
-3. **End-to-End User Flow** : Users should be able to upload an image, describe their issue in natural language, and get a natural language response.
+2. **Natural Language Processing** : Use Llama-2-13b-chat for NLP.
+3. **Conversational Depth** : Advanced conversational logic to maintain context and ask for additional details.
+4. **End-to-End User Flow** : Users should be able to upload an image, describe their issue in natural language, and get a natural language response.
+5. Publish PyPI & Docker Image.
 
 #### Future Development
 
-1. **User Interface** : Gradio
-2. **Account Management** : Google OAuth
-3. **Deployment** : Docker, Ngrok
+1. **Deployment** : Docker, Ngrok
+2. **User Interface** : Gradio
 
 ### Modules
 
@@ -31,7 +31,7 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 1. **vilt_power.py**
 
    * **Current** : A basic pipeline for object detection and text generation.
-   * **To-Do** : 
+   * **To-Do** :
 
 #### Front-End Functionalities (Planned)
 
@@ -44,7 +44,7 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 ### Technical Requirements
 
 1. **Back-End** : Python, FastAPI
-2. **Object Detection Model** : ViLT 
+2. **Object Detection Model** : ViLT
 3. **Text Generation Model** : LLaMA 2
 
 ### Steps to Move Forward
@@ -57,3 +57,5 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 ### How to learn more
 
 Please see the [progressive project documentation](documents/).
+
+[![Built-With](https://github-readme-stats.vercel.app/api/top-langs/?username=daethyra&theme=synthwave)](https://pdm.fming.dev)

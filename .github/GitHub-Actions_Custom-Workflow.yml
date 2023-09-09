@@ -1,8 +1,6 @@
-name: Daethyra's Workflow
-
+name: VisuaLlama Maintanence Workflow
 # Author: Daethyra (Daemon Carino)
 
-# Triggers
 on:
   push:
     branches:
@@ -21,6 +19,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
+      # Set up Python versions
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -28,6 +27,18 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
+    - name: Set up PDM
+      uses: pdm-project/setup-pdm@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        pdm sync -d -G testing
+    - name: Run Tests
+      run: |
+        pdm run -v pytest tests
+        
     # Robust caching for pip
     - name: Cache pip dependencies
       uses: actions/cache@v3.2.6
@@ -36,12 +47,6 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
-    
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-      
-    - name: Run tests
-      run: pytest
     
     # Linting step
     - name: Install pylint
