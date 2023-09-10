@@ -5,9 +5,9 @@ export PATH=/usr/bin:$PATH
 export PATH=/home/VisuaLlama/.local/bin:$PATH
 
 # Check PATH and Python/Pip
-echo "Current PATH: $PATH" | tee -a /home/VisuaLlama/pysetup.log
-which python3 | tee -a /home/VisuaLlama/pysetup.log
-which pip | tee -a /home/VisuaLlama/pysetup.log
+echo "Current PATH: $PATH" | tee -a /home/VisuaLlama/VisuaSetup.log
+which python3 | tee -a /home/VisuaLlama/VisuaSetup.log
+which pip | tee -a /home/VisuaLlama/VisuaSetup.log
 
 # Install PDM
 curl -sSLO https://pdm.fming.dev/install-pdm.py
@@ -21,14 +21,14 @@ sudo apt update && sudo apt install ngrok -y
 
 # Configure Ngrok Tokens
 ngrok config add-authtoken $NGROK_AUTHTOKEN
-sleep 1
 ngrok config add-api-key $NGROK_API_KEY
+ngrok config check | tee -a /home/VisuaLlama/VisuaSetup.log
 
 # Install Python packages
 pdm install
 
 # Start Python HTTP server in the background
-python3.8 -m http.server 8088
+python3 -m http.server 8088
 
 # Start Ngrok in the foreground
 ngrok http 8088 
