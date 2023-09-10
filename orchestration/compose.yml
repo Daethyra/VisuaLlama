@@ -4,7 +4,6 @@ services:
     build:
       context: ../
       dockerfile: orchestration/Dockerfile
-      # command: ["/bin/bash", "/home/VisuaLlama/start_services.sh"]
     # Uncomment the following lines for GPU support
     deploy:
         resources:
@@ -18,7 +17,5 @@ services:
     env_file:
       - ../.env
     environment:
-      - NGROK_API_KEY=$NGROK_API_KEY
-      - NGROK_AUTH_TOKEN=$NGROK_AUTH_TOKEN
       # Uncomment the following line for GPU support
       - NVIDIA_VISIBLE_DEVICES=all
