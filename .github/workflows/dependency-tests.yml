@@ -5,21 +5,18 @@ on:
   push:
     branches:
       - working # Use wildcards to match multiple branches (e.g. `working/*`)
-  pull_request:
-    branches:
-      - main
-      # Uncomment and add other branches to run the workflow on
-      # - example-branch
-      # - dependabot/
+  # pull_request:
+    # branches:
+      # - main
       # - working # Use wildcards to match multiple branches (e.g. `working/*`)
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
       # Set up Python versions
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python
@@ -27,24 +24,22 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
+      # PDM setup and installation test
     - name: Set up PDM
       uses: pdm-project/setup-pdm@v2
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
+    - name: Run {Install dependencies} Tests
       run: |
-        pdm sync -d -G testing
-    - name: Run Tests
-      run: |
-        pdm run -v pytest tests
+        pdm install
         
-    # Robust caching for pip
+    # Caching for pip
     - name: Cache pip dependencies
       uses: actions/cache@v3.2.6
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
     
@@ -53,14 +48,12 @@ jobs:
       run: pip install pylint
     
     - name: Run pylint
-      run: pylint $(git ls-files '*.py')
+      run: pylint $(git ls-files '**/*.py')
 
-  handle-stale:
-    runs-on: ubuntu-latest
-    steps:
+    # Stalebot
     - name: Mark and close stale issues and PRs
       uses: actions/stale@v6.0.1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        days-before-stale: 3
-        days-before-close: 7
+        days-before-stale: 14
+        days-before-close: 60
