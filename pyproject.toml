@@ -12,11 +12,12 @@ dependencies = [
     "fastapi",
     "requests",
     "gradio",
+    "matplotlib==3.7.2",
     "transformers",
     "tensorflow>=2.13.0",
     "tensorflow-io-gcs-filesystem==0.23.1",
     "tensorboard",
-    "tensorrt>=8.6.1.post1",
+    "numpy",
 ]
 readme = "README.md"
 classifiers = [

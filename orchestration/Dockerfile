@@ -1,8 +1,6 @@
 # The default base image is 'ubuntu:18.04' which defaults to CPU processing and was chosen for backwards compatibility.
 #
 # If you want to use GPU then uncomment the appropriate lines, both here and in 'orchestration/compose.yml'.
-# Only change this file if you know what you are doing.
-#
 # | ---------------------------------- |
 # ---- {Base Build Stage} ----
 # Use an image with CUDA support as base (can be changed for CPU support)
@@ -32,6 +30,8 @@ WORKDIR /home/VisuaLlama
 # Copy only necessary files to make use of Docker's caching mechanism
 COPY pyproject.toml .
 COPY .env .
+COPY README.md .
+COPY LICENSE .
 
 # Switch back to root for package installations
 USER root
@@ -47,14 +47,15 @@ FROM dependencies AS final
 USER VisuaLlama
 ARG USER_ID=1000
 
-# Install pip at the user level
+# Install python3.8pip at the user level
 RUN sudo apt install -y python3-pip python3-venv && \
     python3.8 -m pip install --upgrade pip && \
-    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+    sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1 
 
 # Copy the rest of the files into the image
 COPY src/ ./src/
 COPY orchestration/start_services.sh ./start_services.sh
+
 RUN sudo chmod +x ./start_services.sh && \
     sudo apt autoremove -y
 
