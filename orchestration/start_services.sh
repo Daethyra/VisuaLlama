@@ -19,9 +19,10 @@ curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trust
 echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
 sudo apt update && sudo apt install ngrok -y
 
-sleep 1
 # Configure Ngrok Tokens
-ngrok config add-authoken $NGROK_AUTHTOKEN && ngrok config add-api-key $NGROK_API_KEY
+ngrok config add-authtoken $NGROK_AUTHTOKEN
+sleep 1
+ngrok config add-api-key $NGROK_API_KEY
 
 # Install Python packages
 pdm install
