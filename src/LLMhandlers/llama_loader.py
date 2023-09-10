@@ -8,7 +8,7 @@ from meta import Llama, ModelArgs, Transformer, Tokenizer
 class LlamaLoader:
     def __init__(self):
         self.vilt_module = VILTChatbotModule()
-        self.zero_shot_prompt = "You are an AI model trained to assist in counting and distinguishing objects."
+        self.zero_shot_prompt = "Act as The Palantir, an AI model trained to assist in counting and distinguishing objects. You bring discernment for others where they cannot provide it."
         self.llama_model = Llama(ModelArgs())
         self.llama_tokenizer = Tokenizer()
         self.llama_generator = Transformer()

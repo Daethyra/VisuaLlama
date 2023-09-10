@@ -5,7 +5,7 @@ import gradio as gr
 #def vqa_function(question, image):
     # Your VQA logic here
     # For example, return an answer based on the question and image.
-    return "Sample Answer"
+    #return "Sample Answer"
 
 # Define Gradio interface
 iface = gr.Interface(

@@ -5,6 +5,7 @@ from transformers import ViltProcessor, TFAutoModelForQuestionAnswering
 from PIL import Image
 import logging
 import os
+from utils.load_model import LoadVilt
 
 class VILTChatbotModule:
     """Class for handling Visual Question Answering using ViLT."""
