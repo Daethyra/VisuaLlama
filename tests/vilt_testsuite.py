@@ -1,16 +1,7 @@
-"""
-This module contains the test suite for the VisuaLlama application.
-
-Author:
-    Daemon 'Daethyra' Carino
-    
-LICENSE: 
-    Affero GNU GPL v3.0
-"""
-import sys
-sys.path.append('../src/LLMhandlers')
+#import sys
+#sys.path.append('../src/LLMhandlers')
 import unittest
-from vilt_power import VILTChatbotModule, get_prediction
+from src.LLMhandlers.vilt_power import VILTChatbotModule, get_prediction
 
 class TestVILTChatbotModule(unittest.TestCase):
 
@@ -29,7 +20,22 @@ class TestVILTChatbotModule(unittest.TestCase):
         result = get_prediction('IMG_1607.jpg', 'What color are the boxes?')
         self.assertNotEqual(result.get('error'), 'An error occurred during prediction.', 'Prediction should not fail.')
         
-    def test_invalid_prediction(self):
+    
+def test_init_method(self):
+    # Test if the class or module initializes as expected
+    self.assertIsNotNone(self.vilt_module, "Initialization failed.")
+
+
+
+def test_get_prediction_method(self):
+    # Test if the get_prediction function returns expected results
+    image_path = 'IMG_1608'  # Replace with a valid test image path
+    question = 'What are stacked on the shelves?'
+    prediction = get_prediction(image_path, question)
+    self.assertIsNotNone(prediction, "Prediction failed.")
+
+
+def test_invalid_prediction(self):
         result = get_prediction('invalid_path.jpg', 'What color is the sky?')
         self.assertEqual(result.get('error'), 'An error occurred during prediction.', 'Prediction should fail for invalid image.')
 

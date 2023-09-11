@@ -1,94 +1,60 @@
-"""A versatile backend module for Visual Question Answering using ViLT."""
 
+import asyncio
 import tensorflow as tf
-from transformers import ViltProcessor, TFAutoModelForQuestionAnswering
+from transformers import AutoModel, AutoTokenizer
 from PIL import Image
-import logging
-import os
-from utils.load_model import LoadVilt
+import numpy as np
+from meta.generation import Llama # Import the generation class from LLaMA-2-13b-chat
 
-class VILTChatbotModule:
-    """Class for handling Visual Question Answering using ViLT."""
+class EnhancedVILTChatbotModule:
+    def __init__(self, llama_model, model_name="dandelin/vilt-b32-finetuned-vqa"):
+        self.processor = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name)
+        self.llama = llama_model  # The LLaMA-2-13b-chat model instance
 
-    def __init__(self, model_name="dandelin/vilt-b32-finetuned-vqa"):
-        """
-        Initialize the VILTChatbotModule with pretrained models.
+    async def dynamic_predict(self, dynamic_text, batch_images):
+        # Generate question dynamically from LLaMA-2-13b-chat
+        generated_question = await self.llama.generate(dynamic_text)
+        
+        # Batch process images and questions
+        batch_features = self.process_batch_images(batch_images, generated_question)
+        
+        # Extract and quantify features
+        extracted_features = self.extract_features(batch_features)
+        
+        # Send features to LLaMA-2-13b-chat for interpretation
+        llama_output = await self.llama.interpret_features(extracted_features)
+        
+        return llama_output
 
-        Parameters:
-        - model_name (str): The name of the pretrained model to use.
-        """
-        try:
-            self.processor = ViltProcessor.from_pretrained(model_name)
-            self.model = TFAutoModelForQuestionAnswering.from_pretrained(model_name)
-        except Exception as e:
-            logging.error(f"Error in loading pretrained models: {str(e)}")
-            raise
+    def process_batch_images(self, batch_images, generated_question):
+        batch_features = []
+        for img in batch_images:
+            image = Image.open(img)
+            image_tensor = tf.convert_to_tensor(image)
+            inputs = self.processor(image_tensor, generated_question, return_tensors="tf")
+            outputs = self.model(**inputs)
+            features = outputs.last_hidden_state.mean(dim=1).numpy()
+            batch_features.append(features)
+        return np.array(batch_features)
 
-    def load_image(self, image_input):
-        """
-        Load an image from a local path or PIL Image object.
+    def extract_features(self, batch_features):
+        # Quantify or transform features as needed
+        # For demonstration, assuming features are already in a usable format
+        return batch_features
 
-        Parameters:
-        - image_input (str or PIL.Image.Image): The input image.
+# Example usage
+async def main():
+    # Initialize the Tokenizer and Llama instances (replace with your actual instances)
+    tokenizer = Tokenizer('path/to/your/tokenizer/model')
+    llama_instance = Llama('path/to/your/llama/model', tokenizer)
+    
+    # Initialize the EnhancedVILTChatbotModule
+    module = EnhancedVILTChatbotModule(llama_instance)
+    
+    # Run a prediction
+    result = await module.dynamic_predict("a cat", ["image1.jpg", "image2.jpg"])
+    print(result)
 
-        Returns:
-        - PIL.Image.Image or None: The loaded image or None if an error occurs.
-        """
-        try:
-            if isinstance(image_input, str) and os.path.exists(image_input):
-                image = Image.open(image_input)
-            elif isinstance(image_input, Image.Image):
-                image = image_input
-            else:
-                raise ValueError("Invalid image input. Provide either a local path or a PIL Image object.")
-            
-            return image
-        except Exception as e:
-            logging.error(f"Error in loading image: {str(e)}")
-            return None
-
-    def predict_answer(self, image_input, text):
-        """
-        Predict an answer for a visual question based on an image and text.
-
-        Parameters:
-        - image_input (str or PIL.Image.Image): The input image.
-        - text (str): The question or text description.
-
-        Returns:
-        - str or None: The predicted answer or None if an error occurs.
-        """
-        try:
-            image = self.load_image(image_input)
-            if image is None:
-                raise ValueError("Failed to load image.")
-
-            encoding = self.processor(image, text, return_tensors="tf")
-            outputs = self.model(encoding)
-            logits = outputs.logits
-            idx = tf.math.argmax(logits, axis=-1).numpy()[0]
-            return self.model.config.id2label[idx]
-        except Exception as e:
-            logging.error(f"Error in prediction: {str(e)}")
-            return None
-
-def get_prediction(image_input, text):
-    """
-    Get the predicted answer for a visual question.
-
-    Parameters:
-    - image_input (str or PIL.Image.Image): The input image.
-    - text (str): The question or text description.
-
-    Returns:
-    - dict: A dictionary containing the predicted answer or an error message.
-    """
-    try:
-        vilt_module = VILTChatbotModule()
-        answer = vilt_module.predict_answer(image_input, text)
-        if answer:
-            return {"Predicted answer": answer}
-        else:
-            return {"error": "An error occurred during prediction."}
-    except Exception as e:
-        return {"error": str(e)}
+# Uncomment to run the example
+# asyncio.run(main())
