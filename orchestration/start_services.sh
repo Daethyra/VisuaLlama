@@ -20,9 +20,20 @@ curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trust
 echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
 sudo apt update && sudo apt install ngrok -y
 
+wait
+# Use nano to edit the example.env file
+nano example.env
+
+wait
+# Rename the example.env file to .env
+mv example.env .env
+
+wait
 # Configure Ngrok Tokens
 ngrok config add-authtoken $NGROK_AUTHTOKEN
+wait
 ngrok config add-api-key $NGROK_API_KEY
+wait
 ngrok config check | tee -a /home/VisuaLlama/VisuaSetup.log
 
 # Install Python packages

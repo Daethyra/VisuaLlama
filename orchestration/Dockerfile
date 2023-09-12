@@ -29,7 +29,7 @@ WORKDIR /home/VisuaLlama
 
 # Copy only necessary files to make use of Docker's caching mechanism
 COPY pyproject.toml .
-COPY .env .
+COPY example.env .
 COPY README.md .
 COPY LICENSE .
 
