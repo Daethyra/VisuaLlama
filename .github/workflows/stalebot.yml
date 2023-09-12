@@ -1,0 +1,18 @@
+name: Stalebot
+# Author: Daethyra (Daemon Carino)
+
+on:
+  schedule:
+    - cron: '0 0 */9 * *'  # Runs every 9 days at midnight
+
+jobs:
+  manage-stale-items:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Mark and close stale issues and PRs
+      uses: actions/stale@v6.0.1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        days-before-stale: 14
+        days-before-close: 60

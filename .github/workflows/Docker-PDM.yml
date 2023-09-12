@@ -1,0 +1,38 @@
+name: Deploy the Dockerfile and test the dependency installation process
+
+on:
+  push:
+    branches:
+      - working
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8"]  # "3.8", "3.9", "3.10", "3.11"
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Test the Dockerfile's deployment process
+      run: docker build . --file orchestration/Dockerfile --tag visuatest:$(date +%s)
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up PDM
+      uses: pdm-project/setup-pdm@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Move files (example)
+      run: |
+        mv source_path destination_path  # Replace with actual paths
+
+    - name: Test the dependency installation process
+      run: |
+        pdm install
