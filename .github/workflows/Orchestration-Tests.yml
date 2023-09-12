@@ -1,4 +1,4 @@
-name: VisuaLlama Maintanence Workflow
+name: Test the orchestration process
 # Author: Daethyra (Daemon Carino)
 
 on:
@@ -8,14 +8,13 @@ on:
   # pull_request:
     # branches:
       # - main
-      # - working # Use wildcards to match multiple branches (e.g. `working/*`)
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-      # Set up Python versions
+      # Specify Python versions for testing
         python-version: ["3.8"] # , "3.9", "3.10", "3.11"
     steps:
     - name: Test the Dockerfile's deployment process
@@ -37,17 +36,8 @@ jobs:
     - name: Test the dependency installation process
       run: |
         pdm install
-        
-    # Caching for pip
-    - name: Cache pip dependencies
-      uses: actions/cache@v3.2.6
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
     
-    # Linting step
+    # Pylinting
     - name: Install pylint
       run: pip install pylint
     
