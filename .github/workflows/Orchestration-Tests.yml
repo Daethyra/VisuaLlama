@@ -36,7 +36,10 @@ jobs:
 
     - name: Test the dependency installation process
       run: |
-        pdm install
+        pdm install 
+      #    ***ADD COMMANDS FOR THIS PHASE:***
+      #         python.path config needs to be moved to .pdm-python
+      #           and .pdm.toml needs to be renamed to pdm.toml
 
     # Stalebot
     - name: Mark and close stale issues and PRs
