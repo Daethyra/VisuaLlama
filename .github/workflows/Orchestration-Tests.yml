@@ -19,7 +19,7 @@ jobs:
     steps:
     - name: Test the Dockerfile's deployment process
       run: |
-        docker-compose --file orchestration/Dockerfile up --tag visuatest:$(date +%s)
+        docker-compose -f orchestration/Dockerfile up
     - uses: actions/checkout@v3
 
     - name: Set up Python
