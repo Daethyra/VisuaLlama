@@ -29,10 +29,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Move files (example)
+    - name: Move installation files
       run: |
-        mv source_path destination_path  # Replace with actual paths
+        mv pyproject.toml orchestration/pyproject.toml
+        mv pdm.lock orchestration/pdm.lock
 
-    - name: Test the dependency installation process
+    - name: Test PDM's installation
       run: |
         pdm install

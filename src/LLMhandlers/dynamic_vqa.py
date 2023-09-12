@@ -43,3 +43,7 @@ class VILTChatbot:
         # and return a list of features that Llama can interpret easily
 
         return batch_features
+
+
+# TODO: CREATE A CHAIN OF QUERIES AGAINST VILT TO GAIN A HOLLISTIC UNDERSTANDING OF THE IMAGE, \
+    # IN ADDITION TO THE USER'S QUESTION. THIS WILL BE PROVIDED AS CONTEXT TO THE GENERATOR
