@@ -19,7 +19,7 @@ jobs:
     steps:
     - name: Test the Dockerfile's deployment process
       run: |
-        docker build . --file orchestration/Dockerfile --tag VisuaLlama-test-deployment:$(date +%s)
+        docker build . --file orchestration/Dockerfile --tag visuaLlama-test-deployment:$(date +%s)
     - uses: actions/checkout@v3
 
     - name: Set up Python
