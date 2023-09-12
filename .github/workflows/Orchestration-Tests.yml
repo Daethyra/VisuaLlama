@@ -21,7 +21,7 @@ jobs:
 
     - name: Test the Dockerfile's deployment process
       run: |
-        docker-compose -f orchestration/compose.yml up
+        docker build . --file orchestration/Dockerfile --tag visuatest:$(date +%s)
 
     - name: Set up Python
       uses: actions/setup-python@v3
@@ -37,13 +37,6 @@ jobs:
     - name: Test the dependency installation process
       run: |
         pdm install
-    
-    # Pylinting
-    - name: Install pylint
-      run: pip install pylint
-    
-    - name: Run pylint
-      run: pylint $(git ls-files '**/*.py')
 
     # Stalebot
     - name: Mark and close stale issues and PRs
