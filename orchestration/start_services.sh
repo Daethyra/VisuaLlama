@@ -4,6 +4,7 @@
 export PATH=/usr/bin:$PATH
 export PATH=/home/VisuaLlama/.local/bin:$PATH
 
+wait
 # Check PATH and Python/Pip
 echo "Current PATH: $PATH" | tee -a /home/VisuaLlama/VisuaSetup.log
 which python3 | tee -a /home/VisuaLlama/VisuaSetup.log
@@ -27,8 +28,10 @@ ngrok config check | tee -a /home/VisuaLlama/VisuaSetup.log
 # Install Python packages
 pdm install
 
+wait
 # Start Python HTTP server in the background
-python3 -m http.server 8088
-
+python3 -m http.server 8088& # need to move deployment to correct dir
+# move to src/routes/ for the sake of index.html 
+wait
 # Start Ngrok in the foreground
-ngrok http 8088 
+ngrok http 8088 # need to move deployment to correct dir
