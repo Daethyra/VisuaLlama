@@ -1,0 +1,51 @@
+import asyncio
+import json
+import logging
+import os
+from PIL import Image
+from transformers import DetrFeatureExtractor, DetrForSegmentation
+from torch.nn.functional import softmax
+
+class DETRops:
+    def __init__(self, model_name="facebook/detr-resnet-50-panoptic"):
+        try:
+            self.feature_extractor = DetrFeatureExtractor.from_pretrained(model_name)
+            self.detr_model = DetrForSegmentation.from_pretrained(model_name).to("cuda")
+        except Exception as e:
+            logging.error(f"Error during model initialization: {e}")
+
+    def load_images(self, image_folder='/src/routes/images'):
+        image_files = [f for f in os.listdir(image_folder) if f.endswith(('.jpg', '.png', '.jpeg'))]
+        return [Image.open(os.path.join(image_folder, img_file)) for img_file in image_files]
+
+    async def extract_features_async(self):
+        labeled_segments_list = []
+        batch_images = self.load_images()
+
+        for image in batch_images:
+            try:
+                inputs = self.feature_extractor(images=image, return_tensors="pt").to("cuda")
+                loop = asyncio.get_event_loop()
+                outputs = await loop.run_in_executor(None, self.detr_model, **inputs)
+
+                pred_logits = outputs['pred_logits'][0]
+                pred_boxes = outputs['pred_boxes'][0]
+                probas = softmax(pred_logits, dim=-1)
+                object_counts = {}
+                OBJECT_PROB_THRESHOLD = 0.9
+                for i, prob in enumerate(probas):
+                    object_class = prob.argmax().item()
+                    object_prob = prob.max().item()
+                    if object_prob > OBJECT_PROB_THRESHOLD:
+                        object_counts[object_class] = object_counts.get(object_class, 0) + 1
+
+                labeled_segments_list.append(object_counts)
+            except Exception as e:
+                logging.error(f"Error during feature extraction: {e}")
+
+        try:
+            labeled_segments_json = json.dumps(labeled_segments_list)
+        except Exception as e:
+            logging.error(f"Error during JSON conversion: {e}")
+
+        return labeled_segments_json
