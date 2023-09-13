@@ -29,11 +29,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Move installation files
-      run: |
-        mv pyproject.toml orchestration/pyproject.toml
-        mv pdm.lock orchestration/pdm.lock
-
     - name: Test PDM's installation
       run: |
         pdm install
