@@ -1,9 +1,11 @@
 name: Deploy the Dockerfile and test the dependency installation process
 
 on:
+  schedule:
+    - cron: '0 8 */3 * *'  # Runs every 3 days at 8 AM PST
   push:
     branches:
-      - working
+      - main
 
 jobs:
   build:
