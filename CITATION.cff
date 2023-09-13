@@ -1,53 +1,54 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below."
-
-references:
+title: VisuaLlama
+message: >-
+  VisuaLlama is integrated with multiple open-source
+  projects and is therefore subject to their licensing
+  agreements.
+type: software
+authors:
+  - given-names: Daemon 'Daethyra'
+    family-names: Carino
+    email: dev-daethyra@c-sec.8shield.net
   - type: software
     authors:
-      - family-names: "Carino"
-        given-names: "Daemon 'Daethyra'"
-    title: "VisuaLlama: A VQA object counting assistant powered by Llama 2"
+      - family-names: Carino
+        given-names: Daemon 'Daethyra'
+    title: 'VisuaLlama: A VQA object counting assistant powered by Llama 2'
     year: 2023
-    repository-code: "https://github.com/daethyra/visuallama"
-
-
-
+    repository-code: 'https://github.com/daethyra/visuallama'
   - type: article
     authors:
-      - family-names: "Kim"
-        given-names: "Wonjae"
-      - family-names: "Son"
-        given-names: "Bokyung"
-      - family-names: "Kim"
-        given-names: "Ildoo"
-    title: "ViLT: Vision-and-Language Transformer Without Convolution or Region Supervision"
+      - family-names: Kim
+        given-names: Wonjae
+      - family-names: Son
+        given-names: Bokyung
+      - family-names: Kim
+        given-names: Ildoo
+    title: >-
+      ViLT: Vision-and-Language Transformer Without Convolution or Region
+      Supervision
     year: 2021
-    journal: "arXiv"
-    volume: "2102.03334"
-
+    journal: arXiv
+    volume: '2102.03334'
   - type: software
     authors:
-      - family-names: "Dandelin"
-        given-names: "Daniel"
-    title: "ViLT: Vision-and-Language Transformer Implementation"
+      - family-names: Dandelin
+        given-names: Daniel
+    title: 'ViLT: Vision-and-Language Transformer Implementation'
     year: 2023
-    repository-code: "https://github.com/dandelin/ViLT"
-
-
-
+    repository-code: 'https://github.com/dandelin/ViLT'
   - type: software
     authors:
-      - organization: "Meta Research"
-    title: "LLaMa: Inference code for LLaMa models"
+      - organization: Meta Research
+    title: 'LLaMa: Inference code for LLaMa models'
     year: 2023
-    repository-code: "https://github.com/facebookresearch/llama"
-
+    repository-code: 'https://github.com/facebookresearch/llama'
   - type: article
     authors:
-      - family-names: "Meta Research"
-    title: "Llama 2: Open Foundation and Fine-Tuned Chat Models"
+      - family-names: Meta Research
+    title: 'Llama 2: Open Foundation and Fine-Tuned Chat Models'
     year: 2023
-    journal: "arXiv"
-    volume: "2307.09288"
-    url: "https://arxiv.org/abs/2307.09288"
-    note: "For the complete list of authors, please refer to the linked paper."
+    journal: arXiv
+    volume: '2307.09288'
+    url: 'https://arxiv.org/abs/2307.09288'
+    note: 'For the complete list of authors, please refer to the linked paper.'

@@ -12,7 +12,7 @@ dependencies = [
     "fastapi",
     "requests",
     "gradio",
-    "matplotlib==3.7.2",
+    "matplotlib",
     "transformers",
     "tensorflow>=2.13.0",
     "tensorflow-io-gcs-filesystem==0.23.1",

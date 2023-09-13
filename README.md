@@ -15,7 +15,7 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 #### Goals
 
 1. **Fine-Grained Object Detection** : Use [ViLT](https://huggingface.co/dandelin/vilt-b32-finetuned-vqa) for object detection.
-2. **Natural Language Processing** : Use Llama-2-13b-chat for NLP.
+2. **Natural Language Processing** : Use [Llama-2-13b-chat](https://github.com/facebookresearch/llama) for NLP.
 3. **Conversational Depth** : Advanced conversational logic to maintain context and ask for additional details.
 4. **End-to-End User Flow** : Provide a seamless pipeline for uploading images, descriptions, and continue the conversation with the AI as necessary, with short-term memory enabled.
 5. **Publish PyPI package & Docker Image.**
@@ -56,7 +56,7 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 
 Please see the [contributing guidelines](CONTRIBUTING.md).
 
-### Citation
+### Citing this repository
 
 Please see the [citations.cff](citations.cff) file.
 
