@@ -1,3 +1,8 @@
+""" Handle all calls to the DETR model via the HuggingFace library. \
+
+We use the DETR model to extract features from images and return a JSON object \
+containing the number of objects of each class detected in each image.
+"""
 import asyncio
 import json
 import logging
@@ -14,7 +19,7 @@ class DETRops:
         except Exception as e:
             logging.error(f"Error during model initialization: {e}")
 
-    def load_images(self, image_folder='/src/routes/images'):
+    def load_images(self, image_folder='/src/app/images'):
         image_files = [f for f in os.listdir(image_folder) if f.endswith(('.jpg', '.png', '.jpeg'))]
         return [Image.open(os.path.join(image_folder, img_file)) for img_file in image_files]
 

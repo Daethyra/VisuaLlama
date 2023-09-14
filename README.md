@@ -24,33 +24,31 @@ The project is in its initial stages, focusing on a Conversational AI Assistant 
 
 #### Backend Modules
 
-1. **vilt_power.py**
+1. **detr_detection.py**
 
    * **Current** : A basic pipeline for object detection and text generation.
    * **To-Do** : Integrate with the UI and AI.
+
 2. **llama_loader.py** : Liason module for VisuaLlama to its LLM counterpart.
 
 #### Planned Development
 
 1. ~~**Deployment files** : Docker, Ngrok~~
 2. ~~**Create a Gradio Python module** : Image/text IN; Text OUT.~~
-3. **Initialize Submodule** : Using, Git, initialize the official Llama repository as a submodule.
-4. **Integrate short-term memory** : State management by caching 6 chat messages.
-5. **Ngrok Ingress Test** : Confirm that the web application is remotely available.
-6. **Initialize Llama as submodule** : Using, Git, initialize the official Llama repository as a submodule.
+3. **Integrate short-term memory** : State management with 3 most recent messages.
+4. **Ngrok Ingress Test** : Confirm that the web application is remotely available.
+
 
 ### Technologies
 
-1. **Setup** : Python, PDM(Python Dependency Management)
-2. **Object Detection Model** : ViLT
+1. **Dependencies** : Python, PDM(Python Dependency Management)
+2. **Object Detection Model** : 
 3. **Text Generation Model** : LLaMA-2-13b-chat
 4. **Ingress** : Ngrok, Google OAuth
 
 ### Steps to Move Forward
 
-1. **Object Detection Testing** : Test ViLT for object detection with its testsuite.
-2. **Test LLaMA generation functions** : Load the local model with `llama_loader.py` in `LLMhandlers/`; test the pipeline for text generation.
-3. **ViLT integration with Gradio and Testing** : Test the Gradio interface by integrating `vilt_power.py` module. Ensure the base UX aligns with the project's end goals.
+1. 
 
 ### How to contribute
 
@@ -64,4 +62,4 @@ Please see the [citations.cff](citations.cff) file.
 
 Please see the [project documentation](documents).
 
-[![Built-With](https://github-readme-stats.vercel.app/api/top-langs/?username=daethyra&theme=synthwave)](https://pdm.fming.dev)
+[![Built-With](https://github-readme-stats.vercel.app/api/top-langs/?username=daethyra&theme=dark)](https://pdm.fming.dev)
