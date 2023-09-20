@@ -1,0 +1,5 @@
+1. Split MultimodalAssistant into two classes
+    - Abstract the:
+        * Model loading via Transformers 
+        * DETR processing
+        * Llama generation sequencing

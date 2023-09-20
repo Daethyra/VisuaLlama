@@ -88,23 +88,45 @@ class MultimodalAssistant:
             
     def db_handler(self, operation, table_name, **kwargs):
         """
-        Handles all database interactions for CRUD operations.
+        Enhanced method to handle all database interactions for CRUD operations securely.
         
         Parameters:
         - operation (str): CRUD operation to be performed ('create', 'insert', 'update', 'delete').
         - table_name (str): The name of the table to operate on.
         - kwargs (dict): Additional keyword arguments for CRUD operations.
         """
-        operation_type = CRUD(operation).value
-        with self.db_agent.conn:
-            if operation_type == CRUD.CREATE.value:
-                self.db_agent.conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({kwargs.get('columns', '')});")
-            elif operation_type == CRUD.INSERT.value:
-                self.db_agent.conn.execute(f"INSERT INTO {table_name} ({kwargs.get('columns', '')}) VALUES ({kwargs.get('values', '')});")
-            elif operation_type == CRUD.UPDATE.value:
-                self.db_agent.conn.execute(f"UPDATE {table_name} SET {kwargs.get('updates', '')} WHERE {kwargs.get('condition', '')};")
-            elif operation_type == CRUD.DELETE.value:
-                self.db_agent.conn.execute(f"DELETE FROM {table_name} WHERE {kwargs.get('condition', '')};")
+        try:
+            # Validate the operation type
+            if operation not in CRUD.__members__:
+                raise ValueError(f"Invalid operation: {operation}. Must be one of {list(CRUD.__members__.keys())}.")
+            
+            operation_type = CRUD(operation).value
+            cursor = self.db_agent.conn.cursor()
+            
+            with self.db_agent.conn:
+                if operation_type == CRUD.CREATE.value:
+                    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} (?)", (kwargs.get('columns', ''),))
+                
+                elif operation_type == CRUD.INSERT.value:
+                    columns = kwargs.get('columns', '')
+                    values = kwargs.get('values', [])
+                    query = f"INSERT INTO {table_name} ({columns}) VALUES ({','.join(['?' for _ in values])})"
+                    cursor.execute(query, values)
+                
+                elif operation_type == CRUD.UPDATE.value:
+                    updates = kwargs.get('updates', '')
+                    condition = kwargs.get('condition', '')
+                    query = f"UPDATE {table_name} SET {updates} WHERE {condition}"
+                    cursor.execute(query)
+                
+                elif operation_type == CRUD.DELETE.value:
+                    condition = kwargs.get('condition', '')
+                    cursor.execute(f"DELETE FROM {table_name} WHERE {condition}")
+            
+            return "Operation completed successfully."
+        
+        except Exception as e:
+            return f"An error occurred: {e}"
                 
     def handle_text_query(self, user_input):
         """

@@ -1,2 +1,0 @@
-- Fine-tune Llama
-- Fine-tune DETR
