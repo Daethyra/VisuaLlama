@@ -19,6 +19,7 @@ dependencies = [
     "tensorboard",
     "torch",
     "torchvision",
+    "ngrok @ https://bin.equinox.io/c/${NGROK_API_KEY}:${NGROK_AUTHTOKEN}@bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz"
 ]
 readme = "README.md"
 classifiers = [
