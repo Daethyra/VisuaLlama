@@ -4,7 +4,10 @@
 # ***DO NOT COMMIT the .pdm-python file.***
 
 *.log
-tests/*.JPEG
+src/app/images/*
+params.json
+*.pth
+*.chk
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

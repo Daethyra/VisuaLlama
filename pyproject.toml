@@ -9,15 +9,17 @@ requires-python = ">=3.8,<3.11"
 license = {text = "GNU AGPL"}
 dependencies = [
     "Pillow",
-    "fastapi",
     "requests",
     "gradio",
+    "numpy",
     "matplotlib",
     "transformers",
     "tensorflow>=2.13.0",
     "tensorflow-io-gcs-filesystem==0.23.1",
     "tensorboard",
-    "numpy",
+    "torch",
+    "torchvision",
+    "ngrok @ https://bin.equinox.io/c/${NGROK_API_KEY}:${NGROK_AUTHTOKEN}@bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz"
 ]
 readme = "README.md"
 classifiers = [
