@@ -1,5 +1,4 @@
-# Proceeding with implementing additional improvements to the DatabaseAgent class
-
+import asyncio
 import sqlite3
 import logging
 from threading import RLock
@@ -12,108 +11,102 @@ class DatabaseAgent:
         self.db_name = db_name
         self.pool_size = pool_size
         self.query_timeout = query_timeout
-        self.conn_pool = [self._create_connection() for _ in range(self.pool_size)]
+        self.conn_pool = asyncio.Queue()
         self.lock = RLock()
+        self.init_conn_pool()
+
+    def init_conn_pool(self):
+        for _ in range(self.pool_size):
+            conn = self._create_connection()
+            self.conn_pool.put_nowait(conn)
 
     def _create_connection(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self.db_name, timeout=self.query_timeout)
         return conn
 
-    def __enter__(self) -> 'DatabaseAgent':
-        self.conn = self._acquire_connection()
+    async def __aenter__(self) -> 'DatabaseAgent':
+        self.conn = await self._acquire_connection()
         logging.info(f"Connected to database {self.db_name}")
         return self
 
-    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
-        self._release_connection(self.conn)
+    async def __aexit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
+        await self._release_connection(self.conn)
         logging.info("Connection released back to pool.")
 
-    def __getitem__(self, query: str) -> List[Tuple[Any]]:
-        return self.execute_read_query(query)
-
-    def __setitem__(self, query: str, parameters: Union[Tuple[Any], List[Any]]) -> None:
-        self.execute_query(query, parameters)
-
-    def __delitem__(self, query: str) -> None:
-        self.execute_query(query)
-
-    def __contains__(self, query: str) -> bool:
-        result = self.execute_read_query(query)
-        return bool(result)
-
-    def _acquire_connection(self) -> sqlite3.Connection:
+    async def _acquire_connection(self) -> sqlite3.Connection:
         with self.lock:
-            return self.conn_pool.pop()
+            conn = await self.conn_pool.get()
+            return conn
 
-    def _release_connection(self, conn: sqlite3.Connection) -> None:
+    async def _release_connection(self, conn: sqlite3.Connection) -> None:
         with self.lock:
-            self.conn_pool.append(conn)
+            await self.conn_pool.put(conn)
 
-    def begin(self) -> None:
-        self.execute_query("BEGIN TRANSACTION;")
+    async def begin(self) -> None:
+        await asyncio.to_thread(self.execute_query, "BEGIN TRANSACTION;")
 
-    def commit(self) -> None:
-        self.conn.commit()
+    async def commit(self) -> None:
+        await asyncio.to_thread(self.conn.commit)
 
-    def rollback(self) -> None:
-        self.conn.rollback()
+    async def rollback(self) -> None:
+        await asyncio.to_thread(self.conn.rollback)
 
-    def execute_query(self, query: str, parameters: Union[Tuple[Any], List[Any]] = None) -> None:
+    async def execute_query(self, query: str, parameters: Union[Tuple[Any], List[Any]] = None) -> None:
         try:
-            cursor = self.conn.cursor()
-            if parameters:
-                cursor.execute(query, parameters)
-            else:
-                cursor.execute(query)
-            self.conn.commit()
+            await asyncio.to_thread(self.conn.execute, query, parameters)
+            await asyncio.to_thread(self.conn.commit)
             logging.info(f"Executed query: {query}")
         except sqlite3.Error as e:
-            self.conn.rollback()
+            await asyncio.to_thread(self.conn.rollback)
             logging.error(f"Failed to execute query {query}: {e}")
             raise
 
-    def execute_read_query(self, query: str, parameters: Union[Tuple[Any], List[Any]] = None) -> List[Tuple[Any]]:
+    async def execute_read_query(self, query: str, parameters: Union[Tuple[Any], List[Any]] = None) -> List[Tuple[Any]]:
         try:
-            cursor = self.conn.cursor()
-            if parameters:
-                cursor.execute(query, parameters)
-            else:
-                cursor.execute(query)
-            return cursor.fetchall()
+            cursor = await asyncio.to_thread(self.conn.execute, query, parameters)
+            result = await asyncio.to_thread(cursor.fetchall)
+            return result
         except sqlite3.Error as e:
             logging.error(f"Failed to read data: {e}")
             raise
 
-    def execute_multiple_queries(self, queries: str) -> None:
+    async def execute_multiple_queries(self, queries: str) -> None:
         try:
-            cursor = self.conn.cursor()
-            cursor.executescript(queries)
-            self.conn.commit()
+            await asyncio.to_thread(self.conn.executescript, queries)
+            await asyncio.to_thread(self.conn.commit)
             logging.info(f"Executed multiple queries.")
         except sqlite3.Error as e:
-            self.conn.rollback()
+            await asyncio.to_thread(self.conn.rollback)
             logging.error(f"Failed to execute multiple queries: {e}")
             raise
 
-    def execute_prepared_statement(self, query: str, parameters: Union[Tuple[Any], List[Any]]) -> None:
+    async def execute_prepared_statement(self, query: str, parameters: Union[Tuple[Any], List[Any]]) -> None:
         try:
-            cursor = self.conn.cursor()
-            cursor.execute(query, parameters)
-            self.conn.commit()
+            await asyncio.to_thread(self.conn.execute, query, parameters)
+            await asyncio.to_thread(self.conn.commit)
             logging.info(f"Executed prepared statement: {query}")
         except sqlite3.Error as e:
-            self.conn.rollback()
+            await asyncio.to_thread(self.conn.rollback)
             logging.error(f"Failed to execute prepared statement {query}: {e}")
             raise
 
-    def execute_batch_operations(self, query: str, parameters_list: List[Union[Tuple[Any], List[Any]]]) -> None:
+    async def execute_batch_operations(self, query: str, parameters_list: List[Union[Tuple[Any], List[Any]]]) -> None:
         try:
-            cursor = self.conn.cursor()
-            cursor.executemany(query, parameters_list)
-            self.conn.commit()
+            cursor = await asyncio.to_thread(self.conn.cursor)
+            await asyncio.to_thread(cursor.executemany, query, parameters_list)
+            await asyncio.to_thread(self.conn.commit)
             logging.info(f"Executed batch operations.")
         except sqlite3.Error as e:
-            self.conn.rollback()
+            await asyncio.to_thread(self.conn.rollback)
             logging.error(f"Failed to execute batch operations: {e}")
             raise
 
+    async def validate_data(self, query: str, parameters: Union[Tuple[Any], List[Any]] = None) -> bool:
+        # Placeholder for data validation logic
+        return True
+
+    async def handle_schema(self, schema_sql: str) -> None:
+        await self.execute_multiple_queries(schema_sql)
+
+# Note: The actual data validation and schema handling logic would depend on the specific requirements of the application
+# and are thus left as placeholders for now.
