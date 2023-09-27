@@ -1,0 +1,11 @@
+Task 3: Data Storage and Library Recommendations
+Data Storage Types
+Image detection values from DETR: BLOB or VARCHAR (if stored as encoded strings)
+Llama 2 model text generations: TEXT
+User queries: TEXT
+Python Library for Data Validation
+Recommended Library: Pydantic
+Reason: Pydantic offers built-in validation and superior performance, making it suitable for your project needs.
+Guidance on SQL Queries
+Recommended Approach: SQLAlchemy
+Reason: Since you are not comfortable with manual SQL queries, using an ORM like SQLAlchemy can abstract the SQL details and offer a more Pythonic approach to database interactions.

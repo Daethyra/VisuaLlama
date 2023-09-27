@@ -11,6 +11,7 @@
 #### Current Status
 
 #### Goals
+- Fine-tune [DETR](https://huggingface.co/facebook/detr-resnet-50-dc5-panoptic)
 
 ### Technologies
 
